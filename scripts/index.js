@@ -46,9 +46,13 @@ drawChartBtn.addEventListener('click', () => {
     const data = [];
 
     for (const row of dataRows) {
-        const year = Number(row.querySelector('.year').value);
-        const yield = Number(row.querySelector('.yield').value);
-        data.push([year, yield]);
+        const year = row.querySelector('.year').value;
+        const yield = row.querySelector('.yield').value;
+        if (year === '' || yield === '') {
+            continue;
+        } else {
+            data.push([Number(year), Number(yield)]);
+        }
     }
 
     // Ratio statistics
@@ -61,6 +65,8 @@ drawChartBtn.addEventListener('click', () => {
             maxRatio = ratio;
         }
     }
+
+    console.log(data);
 
     // Draw axes and Y-ticks
     drawAxes();
