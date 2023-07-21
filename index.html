@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Grain Statistics</title>
+
+  <link rel="stylesheet" href="./css/index.css" />
+
+  <script src="./scripts/index.js" defer></script>
+</head>
+
+<body>
+    <canvas id="chartCanvas" width="600" height="400"></canvas>
+
+    <table id="dataInputTable">
+        <tr class="title">
+          <th>年份</th>
+          <th>产量（万吨）</th>
+        </tr>
+        <tr class="dataRow">
+          <td><input type="number" class="year" placeholder="2019"></td>
+          <td><input type="number" class="yield" placeholder="2"></td>
+        </tr>
+    </table>
+
+    <button id="addRowBtn">新增一行</button>
+
+    <button id="drawChartBtn">绘制图表</button>
+</body>
+</html>
+
