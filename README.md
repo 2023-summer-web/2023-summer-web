@@ -62,7 +62,7 @@ Conventional Commits 不仅约定了一个很好的规范，还提供了可扩�
 
 1. 注意全角和半角标点符号的使用问题。结构化 commit 中连接 `<type>(<scope>)` 部分与 `<subject>` 部分的冒号应为半角符号，`<footer>` 部分涉及 issue 标号的部分应使用半角括号包裹起来（上述 commit message 表示修复了 issue#39 所反映的问题）。
 2. 非汉字字符与汉字字符（除汉字标点符号）间应保留空格。
-3. `<subject>` 和 `<body>` 部分的语种没有限制。
+3. `<subject>` 和 `<body>` 部分的语种没有限制，但如果 `<subject>` 以英文单词开头，首字母不需要大写。
 
 ## 附：Merge/Pull Request 规范
 
@@ -81,8 +81,8 @@ Merge Request（或者 Pull Request）将开发者开发的代码内容以一种
    $ git checkout --track origin/your-branch-name
    ```
 
-3. 在 Github 上提交 Pull request：
+3. 在 Github 上提交 Pull request，合理选择 Squash 或 Rebase：
 
    <img src="./assets/pr_example.png" alt="pr_example" />
 
-4. 等待 Reviewer 的 Review。Review 完成后，Review 人员可以选择 Approve 或者 Request Changes。如果 Reviewer 选择 Request Changes，则开发者需要根据 Reviewer 的意见进行修改，修改完成后再次提交 Pull Request；如果 Reviewer 选择 Approve，则开发者可以选择 Merge Pull Request，将本次开发的内容合并到主分支上。
+4. 等待 Reviewer 的 Review。Review 完成后，Review 人员可以选择 Approve 或者 Request Changes。如果 Reviewer 选择 Request Changes，则开发者需要根据 Reviewer 的意见进行修改，修改完成后再次提交 Pull Request；如果 Reviewer 选择 Approve，则开发者可以选择 Merge Pull Request，将本次开发的内容合并到主分支上，并删除工作分支。
