@@ -32,6 +32,7 @@ function parseFile(file, fileExtension) {
   }
   
 function processData(getdata) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let sum = 0;
     let data = [];
     
@@ -48,6 +49,9 @@ function processData(getdata) {
     }
   
     document.getElementById("result").innerHTML = "产量总和为：" + sum;
+
+    // 按照年份升序排序
+    data.sort((a, b) => a[0] - b[0]);
 
         // Ratio statistics
     const yAxisLength = yAxisBottomPostion[1] - yAxisTopPostion[1];

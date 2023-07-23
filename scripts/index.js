@@ -45,7 +45,20 @@ drawChartBtn.addEventListener('click', () => {
     const dataRows = dataInputTable.getElementsByClassName('dataRow');
     const data = [];
 
-    for (const row of dataRows) {
+    // 修改原先问题：首行有 placeholder 属性而未输入值时不被计算
+    const firstRow = dataRows[0];
+    const firstYearInput = firstRow.querySelector('.year');
+    const firstYieldInput = firstRow.querySelector('.yield');
+    
+    const firstYear = parseInt(firstYearInput.placeholder);
+    const firstYield = parseInt(firstYieldInput.placeholder);
+    
+    if (!isNaN(firstYear) && !isNaN(firstYield)) {
+      data.push([firstYear, firstYield]);
+    }
+
+    for (let i = 1; i < dataRows.length; i++) {
+        const row = dataRows[i];
         const year = row.querySelector('.year').value;
         const yield = row.querySelector('.yield').value;
         if (year === '' || yield === '') {
@@ -54,6 +67,9 @@ drawChartBtn.addEventListener('click', () => {
             data.push([Number(year), Number(yield)]);
         }
     }
+
+    // 按照年份升序排序
+    data.sort((a, b) => a[0] - b[0]);
 
     // Ratio statistics
     const yAxisLength = yAxisBottomPostion[1] - yAxisTopPostion[1];
