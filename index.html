@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="./css/index.css" />
 
   <script src="./scripts/index.js" defer></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.5/xlsx.core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script src="./scripts/file.js" defer></script>
 </head>
 
 <body>
@@ -23,6 +26,12 @@
           <td><input type="number" class="yield" placeholder="2"></td>
         </tr>
     </table>
+
+    <div class="container">
+      <input type="file" id="fileInput" accept=".csv, .xls, .xlsx">
+      <button onclick="handleFile()">上传文件</button>
+      <div id="result"></div>
+    </div>
 
     <button id="addRowBtn">新增一行</button>
 
