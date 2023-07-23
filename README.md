@@ -70,13 +70,19 @@ Merge Request（或者 Pull Request）将开发者开发的代码内容以一种
 
 在 Github 上，一次完整的「开发-请求合并-合并成功」流程如下所示：
 
-1. 创建新分支，并在这个分支上进行代码的修改。分支的名称应当能够大体反映本次开发流程的主题：<img src="file:///C:\Users\leyancui\AppData\Roaming\Tencent\Users\1273425757\QQ\WinTemp\RichOle\V1RUQ9BE6CM$JPPS%ZGSLKB.png" alt="img"  />
+1. 创建新分支，并在这个分支上进行代码的修改。分支的名称应当能够大体反映本次开发流程的主题：
+   
+   <img src="./assets/create_branch_example.png" alt="create_branch_example" />
 
-2. 拉取远程仓库，并在本地跟踪新建分支，在该分支上完成一切后续开发工作。
+2. 拉取远程仓库，并在本地跟踪新建分支，在该分支上完成一切后续开发工作。主分支是受保护的，仅接受 Pull Request。不应当出现任何直接以主分支为目标的 push 请求（然而 Github 上只有给仓库所属的组织氪金升级才能解锁分支保护功能🥺）。
 
    ```shell
    $ git clone ...
    $ git checkout --track origin/your-branch-name
    ```
 
-3. 在 Github 上提交 Pull request
+3. 在 Github 上提交 Pull request：
+
+   <img src="./assets/pr_example.png" alt="pr_example" />
+
+4. 等待 Reviewer 的 Review。Review 完成后，Review 人员可以选择 Approve 或者 Request Changes。如果 Reviewer 选择 Request Changes，则开发者需要根据 Reviewer 的意见进行修改，修改完成后再次提交 Pull Request；如果 Reviewer 选择 Approve，则开发者可以选择 Merge Pull Request，将本次开发的内容合并到主分支上。
