@@ -1,33 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
   
-  <title>Grain Statistics</title>
+    <title>Grain Statistics</title>
 
-  <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/index.css" />
 
-  <script type="module" src="./scripts/index.js" defer></script>
-  <script type="module" src="./scripts/draw.js" defer></script>
+    <script type="module" src="./scripts/index.js" defer></script>
+    <script type="module" src="./scripts/draw.js" defer></script>
 </head>
 
 <body>
-    <canvas id="chartCanvas" width="800" height="600"></canvas>
+    <div class="container">
+        <div class="main-content">
+            <canvas id="chartCanvas" width="800" height="600"></canvas>
 
-    <table id="dataInputTable">
-        <tr class="title">
-          <th>年份</th>
-          <th>产量（万吨）</th>
-        </tr>
-        <tr class="dataRow">
-          <td><input type="number" class="year" placeholder="2019"></td>
-          <td><input type="number" class="yield" placeholder="2"></td>
-        </tr>
-    </table>
+            <table id="dataInputTable">
+                <tr class="title">
+                    <th>年份</th>
+                    <th>产量（万吨）</th>
+                </tr>
+                <tr class="dataRow">
+                    <td><input type="number" class="year" placeholder="2019"></td>
+                    <td><input type="number" class="yield" placeholder="2"></td>
+                </tr>
+            </table>
+            <button id="addRowBtn">+</button>
 
-    <button id="addRowBtn">新增一行</button>
-
-    <button id="drawChartBtn">绘制图表</button>
+            <div class="button-container">
+                <button id="loadDataFromFile">选择文件</button>
+                <button id="drawChartBtn">绘制图表</button>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>设置</h2>
+            <ul>
+                <li>图表：</li>
+                <ul>
+                    <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
+                    <li><input type="checkbox" id="curve" checked>折线图</input></li>
+                </ul>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
 

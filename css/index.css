@@ -1,16 +1,95 @@
-canvas {
-    margin: 20px auto;
-    display: block;
-    border: 1px solid #000;
-    background-color: #fff;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-table {
-    margin: 20px auto;
+.container {
+    display: flex;
+}
+
+.sidebar {
+    position: fixed;
+    right: 0;
+    background-color: #f3f3f3;
+    opacity: 0.5;
+    color: black;
+    width: 200px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.sidebar input[type=checkbox] {
+    margin-right: 0.5em;
+    vertical-align: middle;
+    zoom: 120%;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-content canvas {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.main-content table {
     border-collapse: collapse;
 }
 
-button {
-    margin: 20px auto;
-    display: block;
+.main-content table, th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    color: #555555;
+}
+
+.main-content button[id=addRowBtn] {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -30px;
+    left: 185px;
+    padding: 2px 8px;
+    background-color: #39C5BB;
+    color: #fff;
+    font-weight: bold;
+    font-size: large;
+    border: none;
+}
+
+button[id=addRowBtn]:hover {
+    background-color: #38bbb2;
+}
+
+.main-content .button-container {
+    display: flex;
+    gap: 20px;
+}
+
+.button-container button {
+    padding: 2px 8px;
+    background-color: #39C5BB;
+    color: #fff;
+    font-size: large;
+    border: none;
+}
+
+.button-container button:hover {
+    background-color: #38bbb2;
 }

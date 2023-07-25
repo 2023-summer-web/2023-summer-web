@@ -1,5 +1,5 @@
 // import index.js
-import { canvas, ctx, dataInputTable, drawChartBtn } from './index.js';
+import { canvas, ctx, dataInputTable, drawChartBtn, histogramChoice, curveChoice } from './index.js';
 
 // Axes position, relative to the canvas
 const xAxisLeftPostion = [50, canvas.height - 50];
@@ -28,14 +28,15 @@ const barCurveSpacing = 60; // Spacing between the bar and the curve
 const barColor = '#4693E0';
 const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
 
-function setCtxStyle(fillStyle='black', font='14px Arial', textAlign='right') {
-    ctx.fillStyle = fillStyle;
-    ctx.font = font;
-    ctx.textAlign = textAlign;
-}
+/// Draw the chart
+drawChartBtn.addEventListener('click', drawChart);
+
+/// Rerennder the chart when the settings are changed
+histogramChoice.addEventListener('change', drawChart);
+curveChoice.addEventListener('change', drawChart);
 
 /// Draw the chart
-drawChartBtn.addEventListener('click', () => {
+function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Get data from table
@@ -76,59 +77,69 @@ drawChartBtn.addEventListener('click', () => {
     }
 
     // Draw the histogram
-    for (let i = 0; i < data.length; i++) {
-        const year = data[i][0];
-        const yieldInput = data[i][1];
+    if (histogramChoice.checked) {
+        for (let i = 0; i < data.length; i++) {
+            const year = data[i][0];
+            const yieldInput = data[i][1];
 
-        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
-        const pointY = xAxisLeftPostion[1];
-        const barHeight = yieldInput * barHeightPerUnit;
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
+            const pointY = xAxisLeftPostion[1];
+            const barHeight = yieldInput * barHeightPerUnit;
 
-        // Draw the bar
-        ctx.fillStyle = barColor;
-        ctx.fillRect(pointX, pointY, barWidth, -barHeight);
+            // Draw the bar
+            ctx.fillStyle = barColor;
+            ctx.fillRect(pointX, pointY, barWidth, -barHeight);
 
-        // Draw the value and year
-        setCtxStyle('black', '14px Arial', 'center');
-        // Show the value
-        ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
-        // Show the year
-        ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
+            // Draw the value and year
+            setCtxStyle('black', '14px Arial', 'center');
+            // Show the value
+            ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
+            // Show the year
+            ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
+        }
     }
 
     // Draw the curve
-    for (let i = 0; i < data.length; i++) {
-        const yieldInput = data[i][1];
-        const yieldRatio = yieldInput / yieldSum;
+    if (curveChoice.checked) {
+        for (let i = 0; i < data.length; i++) {
+            const yieldInput = data[i][1];
+            const yieldRatio = yieldInput / yieldSum;
 
-        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
-        const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
 
-        // Draw the point
-        drawSolidCircle(pointX, pointY, pointRadius, curveColor);
+            // Draw the point
+            drawSolidCircle(pointX, pointY, pointRadius, curveColor);
 
-        // Show the value in the form of ratio
-        setCtxStyle('black', '14px Arial', 'center');
-        ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
-    }
-
-    ctx.beginPath();
-    ctx.strokeStyle = curveColor;
-    ctx.lineWidth = 2;
-    for (let i = 0; i < data.length; i++) {
-        const yieldInput = data[i][1];
-
-        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
-        const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
-
-        if (i === 0) {
-            ctx.moveTo(pointX, pointY);
-        } else {
-            ctx.lineTo(pointX, pointY);
+            // Show the value in the form of ratio
+            setCtxStyle('black', '14px Arial', 'center');
+            ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
         }
-    }
-    ctx.stroke();  
-});
+
+        ctx.beginPath();
+        ctx.strokeStyle = curveColor;
+        ctx.lineWidth = 2;
+        for (let i = 0; i < data.length; i++) {
+            const yieldInput = data[i][1];
+
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
+
+            if (i === 0) {
+                ctx.moveTo(pointX, pointY);
+            } else {
+                ctx.lineTo(pointX, pointY);
+            }
+        }
+        ctx.stroke();
+    } 
+}
+
+function setCtxStyle(fillStyle='black', font='14px Arial', textAlign='right') {
+    ctx.fillStyle = fillStyle;
+    ctx.font = font;
+    ctx.textAlign = textAlign;
+}
 
 function drawAxes() {
     // Set the color and width of axes
