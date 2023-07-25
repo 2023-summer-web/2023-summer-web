@@ -1,27 +1,29 @@
 // import index.js
 import { canvas, ctx, dataInputTable, drawChartBtn } from './index.js';
 
-const xAxisLeftPostion = [50, canvas.height - 50]; // X-axis left point position
-const xAxisRightPostion = [canvas.width - 50, canvas.height - 50]; // X-axis right point position
-const yAxisTopPostion = [50, 50]; // Y-axis top point position
-const yAxisBottomPostion = [50, canvas.height - 50]; // Y-axis bottom point position
+// Axes position, relative to the canvas
+const xAxisLeftPostion = [50, canvas.height - 50];
+const xAxisRightPostion = [canvas.width - 50, canvas.height - 50];
+const yAxisTopPostion = [50, 50];
+const yAxisBottomPostion = [50, canvas.height - 50];
 
+// Axes length
 const xAxisLength = xAxisRightPostion[0] - xAxisLeftPostion[0];
 const yAxisLength = yAxisBottomPostion[1] - yAxisTopPostion[1];
 
+// Chart height bound, preventing the chart from exceeding the canvas
 const chartMaxHeight = yAxisLength - 50;
 
-const xAxisStartSpacing = 10; // Spacing between the first tick and the Y-axis
-const numberOfTicks = 6; // Number of ticks on the Y-axis
-const xAxisSpacing = 60; // X-axis tick spacing
+// Number of ticks on the Y-axis
+const numberOfTicks = 6; 
+const yTickOffset = 10;
 
-const xAxisLineHeight = 15; // X-axis tick line height
-const xAxisLineSpacing = 5; // Spacing between the bar and the hovering value
-const barCurveSpacing = 45; // Spacing between the bar and the curve
+// Point radius
+const pointRadius = 5; 
 
-const barWidth = 30; // Bar width
-
-const pointRadius = 5; // Point radius
+const barTextSpacing = 5; // Spacing between the bar and the hovering value
+const xTickLineHeight = 15; // X-axis tick text line height
+const barCurveSpacing = 60; // Spacing between the bar and the curve
 
 const barColor = '#4693E0';
 const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
@@ -50,6 +52,12 @@ drawChartBtn.addEventListener('click', () => {
         }
     }
 
+    // Bar width adaptive to the number of data, and the relevant constants
+    const numberOfBars = data.length;
+    const barWidth = xAxisLength / (0.2 + numberOfBars * 1.8);
+    const xTickSpacing = 0.8 * barWidth;    // Spacing between each tick on the X-axis
+    const xAxisChartSpacing = 0.5 * barWidth;   // Spacing between the first & last bar and the chart border
+
     // Maximum statistics
     const yieldSum = data.reduce((sum, d) => sum + d[1], 0);
     const maxYield = Math.max(...data.map(d => d[1]));
@@ -64,7 +72,7 @@ drawChartBtn.addEventListener('click', () => {
     const barHeightPerUnit = tickSpacing / tickUnit;
     for (let i = 0; i <= numberOfTicks; i++) {
         const pointY = xAxisLeftPostion[1] - i * tickSpacing;
-        ctx.fillText((i * tickUnit).toString(), xAxisLeftPostion[0] - xAxisStartSpacing, pointY);
+        ctx.fillText((i * tickUnit).toString(), xAxisLeftPostion[0] - yTickOffset, pointY);
     }
 
     // Draw the histogram
@@ -72,7 +80,7 @@ drawChartBtn.addEventListener('click', () => {
         const year = data[i][0];
         const yieldInput = data[i][1];
 
-        const pointX = xAxisLeftPostion[0] + xAxisStartSpacing + (i * xAxisSpacing);
+        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
         const pointY = xAxisLeftPostion[1];
         const barHeight = yieldInput * barHeightPerUnit;
 
@@ -83,9 +91,9 @@ drawChartBtn.addEventListener('click', () => {
         // Draw the value and year
         setCtxStyle('black', '14px Arial', 'center');
         // Show the value
-        ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - xAxisLineSpacing);
+        ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
         // Show the year
-        ctx.fillText(year, pointX + barWidth / 2, pointY + xAxisLineHeight);
+        ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
     }
 
     // Draw the curve
@@ -93,7 +101,7 @@ drawChartBtn.addEventListener('click', () => {
         const yieldInput = data[i][1];
         const yieldRatio = yieldInput / yieldSum;
 
-        const pointX = xAxisLeftPostion[0] + xAxisStartSpacing + (i * xAxisSpacing) + barWidth / 2;
+        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
         const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
 
         // Draw the point
@@ -101,7 +109,7 @@ drawChartBtn.addEventListener('click', () => {
 
         // Show the value in the form of ratio
         setCtxStyle('black', '14px Arial', 'center');
-        ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xAxisLineHeight / 2);
+        ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
     }
 
     ctx.beginPath();
@@ -110,7 +118,7 @@ drawChartBtn.addEventListener('click', () => {
     for (let i = 0; i < data.length; i++) {
         const yieldInput = data[i][1];
 
-        const pointX = xAxisLeftPostion[0] + xAxisStartSpacing + (i * xAxisSpacing) + barWidth / 2;
+        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
         const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
 
         if (i === 0) {
@@ -119,18 +127,12 @@ drawChartBtn.addEventListener('click', () => {
             ctx.lineTo(pointX, pointY);
         }
     }
-    ctx.stroke();
-
-    // Draw the labels of axes
-    setCtxStyle();
-    const yieldInfo = "产量\n（万吨）"; // TODO: How to make line break?
-    ctx.fillText(yieldInfo, yAxisTopPostion[0] + 50, yAxisTopPostion[1] - 20);
-    const yearInfo = "年份";
-    ctx.fillText(yearInfo, xAxisRightPostion[0] + 10, xAxisRightPostion[1] + 20);
+    ctx.stroke();  
 });
 
 function drawAxes() {
     // Set the color and width of axes
+    setCtxStyle();
     ctx.strokeStyle = 'gray';
     ctx.lineWidth = 2;
 
@@ -153,6 +155,12 @@ function drawAxes() {
     ctx.moveTo(yAxisTopPostion[0], yAxisTopPostion[1]);
     ctx.lineTo(yAxisTopPostion[0] + 5, yAxisTopPostion[1] + 5);
     ctx.stroke();
+
+    // Draw the labels of axes
+    const yieldInfo = "产量\n（万吨）"; // TODO: How to make line break?
+    ctx.fillText(yieldInfo, yAxisTopPostion[0] + 50, yAxisTopPostion[1] - 20);
+    const yearInfo = "年份";
+    ctx.fillText(yearInfo, xAxisRightPostion[0] + 40, xAxisRightPostion[1] + 10);
 }
 
 /// Draw a solid circle
