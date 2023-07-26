@@ -1,5 +1,6 @@
 // import index.js
-import { canvas, ctx, dataInputTable, drawChartBtn, histogramChoice, curveChoice } from './index.js';
+import { canvas, ctx, dataInputTable, drawChartBtn } from './main.js';
+import { histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted } from './sidebar.js';
 
 // Axes position, relative to the canvas
 const xAxisLeftPostion = [50, canvas.height - 50];
@@ -35,6 +36,17 @@ drawChartBtn.addEventListener('click', drawChart);
 histogramChoice.addEventListener('change', drawChart);
 curveChoice.addEventListener('change', drawChart);
 
+const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+        if (mutation.attributeName === 'style') {
+            drawChart();
+            break;
+        }
+    }
+});
+
+observer.observe(yTickAdapterInner, { attributes: true });
+
 /// Draw the chart
 function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -53,7 +65,13 @@ function drawChart() {
         }
     }
 
+    // Check if there is any data
+    if (data.length === 0) {
+        return;
+    }
+
     // Bar width adaptive to the number of data, and the relevant constants
+    // 2 * xAxisChartSpacing + (numberOfBars - 1) * xTickSpacing + numberOfBars * barWidth = xAxisLength
     const numberOfBars = data.length;
     const barWidth = xAxisLength / (0.2 + numberOfBars * 1.8);
     const xTickSpacing = 0.8 * barWidth;    // Spacing between each tick on the X-axis
@@ -62,18 +80,28 @@ function drawChart() {
     // Maximum statistics
     const yieldSum = data.reduce((sum, d) => sum + d[1], 0);
     const maxYield = Math.max(...data.map(d => d[1]));
+    const minYield = Math.min(...data.map(d => d[1]));
+    const yieldGap = maxYield - minYield;
 
-    // Draw axes and Y-ticks
+    // Draw axes
     setCtxStyle();
     drawAxes();
-    // The value gap between each tick
-    const tickUnit = Math.ceil(maxYield / numberOfTicks);
-    // The distance between each tick in pixels
+
+    // Adapt and draw the Y-axis ticks
+    const shouldBeAdaptedFlag = data.length > 1 && shouldBeAdapted(yieldGap, maxYield); // If there is only one data point, don't adapt
+    const tickUnit = Math.ceil(shouldBeAdaptedFlag ? yieldGap / (numberOfTicks - 1) : maxYield / numberOfTicks);
     const tickSpacing = chartMaxHeight / numberOfTicks;
     const barHeightPerUnit = tickSpacing / tickUnit;
+    const barHeightOffset = shouldBeAdaptedFlag ? (minYield - tickUnit) * barHeightPerUnit : 0;
+
     for (let i = 0; i <= numberOfTicks; i++) {
         const pointY = xAxisLeftPostion[1] - i * tickSpacing;
-        ctx.fillText((i * tickUnit).toString(), xAxisLeftPostion[0] - yTickOffset, pointY);
+        if (i === 0) {
+            ctx.fillText('0', xAxisLeftPostion[0] - yTickOffset, pointY);
+            continue;
+        }
+        const tickValue = shouldBeAdaptedFlag ? (i - 1) * tickUnit + minYield : i * tickUnit;
+        ctx.fillText(tickValue.toString(), xAxisLeftPostion[0] - yTickOffset, pointY);
     }
 
     // Draw the histogram
@@ -84,7 +112,7 @@ function drawChart() {
 
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
             const pointY = xAxisLeftPostion[1];
-            const barHeight = yieldInput * barHeightPerUnit;
+            const barHeight = yieldInput * barHeightPerUnit - barHeightOffset;
 
             // Draw the bar
             ctx.fillStyle = barColor;
@@ -106,7 +134,7 @@ function drawChart() {
             const yieldRatio = yieldInput / yieldSum;
 
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
-            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
 
             // Draw the point
             drawSolidCircle(pointX, pointY, pointRadius, curveColor);
@@ -123,7 +151,7 @@ function drawChart() {
             const yieldInput = data[i][1];
 
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
-            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit - barCurveSpacing;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
 
             if (i === 0) {
                 ctx.moveTo(pointX, pointY);
