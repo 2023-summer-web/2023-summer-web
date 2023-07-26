@@ -49,17 +49,18 @@ body {
     align-items: center;
     position: relative;
     top: -30px;
-    left: 210px;
+    left: 205px;
     padding: 2px 8px;
     background-color: #39C5BB;
     color: #fff;
     font-weight: bold;
     font-size: large;
     border: none;
+    border-radius: 50%;
 }
 
 .main-content button[id=addRowBtn]:hover {
-    background-color: #38bbb2;
+    background-color: #42e1d7;
 }
 
 .main-content table .dataRow button[class=deleteBtn] {
@@ -72,6 +73,10 @@ body {
     font-size: large;
     border: none;
     border-radius: 50%;
+}
+
+.main-content table .dataRow button[class=deleteBtn]:hover {
+    background-color: #ff0000;
 }
 
 .main-content table .dataRow button[class=deleteBtn]:disabled {
@@ -90,10 +95,11 @@ body {
     color: #fff;
     font-size: large;
     border: none;
+    border-radius: 10%;
 }
 
 .button-container button:hover {
-    background-color: #38bbb2;
+    background-color: #42e1d7;
 }
 
 .button-container input[type=file] {
@@ -101,17 +107,5 @@ body {
     color: transparent;
     font-size: large;
     border: none;
-}
-
-button[id=saveChartBtn] {
-    padding: 2px 8px;
-    background-color: #39C5BB;
-    color: #fff;
-    font-size: large;
-    border: none;
-    margin-bottom: 20px;
-}
-
-button[id=saveChartBtn]:hover {
-    background-color: #38bbb2;
+    border-radius: 10%;
 }

@@ -29,10 +29,10 @@ const barCurveSpacing = 60; // Spacing between the bar and the curve
 const barColor = '#4693E0';
 const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
 
-/// Draw the chart
-drawChartBtn.addEventListener('click', drawChart);
+/// Draw the chart when the data inputs are changed
+dataInputTable.addEventListener('change', drawChart);
 
-/// Rerennder the chart when the settings are changed
+/// Render the chart when the settings are changed
 histogramChoice.addEventListener('change', drawChart);
 curveChoice.addEventListener('change', drawChart);
 

@@ -1,7 +1,5 @@
-import { dataInputTable } from "./main.js";
-
-const filterBtn = document.getElementById('filterBtn');
-const resetBtn = document.getElementById('resetBtn');
+export const filterBtn = document.getElementById('filterBtn');
+export const resetBtn = document.getElementById('resetBtn');
 
 const startYearInput = document.getElementById('startYear');
 const endYearInput = document.getElementById('endYear');
@@ -17,7 +15,6 @@ filterBtn.addEventListener('click', () => {
 
     const dataRows = document.getElementsByClassName('dataRow');
 
-    let dataFiltered = [];
     for (const row of dataRows) {
         const yearInput = row.querySelector('.year');
         const yieldInput = row.querySelector('.yield');

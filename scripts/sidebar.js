@@ -30,7 +30,7 @@ function updateProgress(clientX) {
 }
 
 export function shouldBeAdapted(gapValue, maxValue) {
-    if (gapValue / maxValue < progress) {
+    if (gapValue / maxValue < progress && gapValue !== 0) {
         return true;
     } else {
         return false;
