@@ -16,8 +16,8 @@ addRowBtn.addEventListener('click', () => {
     const newRow = document.createElement('tr');
     newRow.className = 'dataRow';
     newRow.innerHTML = `
-        <td><input type="number" class="year" value="${defaultValue} style="border: none !important;"></td>
-        <td><input type="number" class="yield style="border: none !important;"></td>
+        <td><input type="number" class="year" value="${defaultValue}" style="border: none !important;"></td>
+        <td><input type="number" class="yield" style="border: none !important;"></td>
         <td><button class="deleteBtn" style="display: flex;
         align-items: center;
         position: relative;
@@ -33,7 +33,12 @@ addRowBtn.addEventListener('click', () => {
     // 添加删除按钮的点击事件监听器
     const deleteBtn = newRow.querySelector('.deleteBtn');
     deleteBtn.addEventListener('click', () => {
-        newRow.remove(); 
+        const rows = document.querySelectorAll('.dataRow');
+        if (rows.length > 1) {
+            newRow.remove();
+        } else {
+            deleteBtn.classList.add('disabled');
+        }
     });
 });
 
@@ -50,4 +55,16 @@ saveButton.addEventListener("click", function() {
     downloadLink.download = filename;
     downloadLink.click();
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const deleteBtn = document.getElementById('deleteBtn');
+  deleteBtn.addEventListener('click', () => {
+    const row = deleteBtn.parentNode.parentNode; // 获取父元素行
+    if (document.querySelectorAll('.dataRow').length > 1) {
+        row.remove();
+    } else {
+        deleteBtn.classList.add('disabled');
+    }
+  });
 });

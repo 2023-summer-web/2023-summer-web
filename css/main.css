@@ -36,6 +36,10 @@ body {
     border: none;
 }
 
+.dataRow input::placeholder {
+    color: #CCCCCC; 
+}
+
 .main-content button[id=addRowBtn] {
     display: flex;
     align-items: center;
@@ -52,6 +56,23 @@ body {
 
 button[id=addRowBtn]:hover {
     background-color: #38bbb2;
+}
+
+button[id=deleteBtn] {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #550000;
+    color: #fff;
+    font-weight: bold;
+    font-size: large;
+    border: none;
+    border-radius: 50%;
+}
+
+deleteBtn.disabled {
+    background-color: #ccc;
+    pointer-events: none;
 }
 
 .main-content .button-container {

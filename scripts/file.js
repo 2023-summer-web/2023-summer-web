@@ -15,6 +15,12 @@ loadDataFromFileBtn.addEventListener('click', () => {
 });
   
 function parseFile(file, fileExtension) {
+    // 清空dataInputTable中的数据行
+    const dataRows = Array.from(dataInputTable.querySelectorAll('.dataRow'));
+    for (let i = 0; i < dataRows.length; i++) {
+        dataRows[i].remove();
+    }
+
     let fileReader = new FileReader();
     
     fileReader.onload = function (e) {
@@ -55,8 +61,8 @@ function addEventListener(year = '', yieldInput = '') {
     const newRow = document.createElement('tr');
     newRow.className = 'dataRow';
     newRow.innerHTML = `
-        <td><input type="number" class="year" value="${year} style="border: none !important;"></td>
-        <td><input type="number" class="yield" value="${yieldInput} style="border: none !important;"></td>
+        <td><input type="number" class="year" value="${year}" style="border: none !important;"></td>
+        <td><input type="number" class="yield" value="${yieldInput}" style="border: none !important;"></td>
         <td><button class="deleteBtn" style="display: flex;
         align-items: center;
         position: relative;
@@ -72,9 +78,14 @@ function addEventListener(year = '', yieldInput = '') {
 
     dataInputTable.appendChild(newRow);
 
-    // 添加删除按钮的点击事件监听器
-    const deleteBtn = newRow.querySelector('.deleteBtn');
-    deleteBtn.addEventListener('click', () => {
-        newRow.remove(); 
-    });
+  // 添加删除按钮的点击事件监听器
+  const deleteBtn = newRow.querySelector('.deleteBtn');
+  deleteBtn.addEventListener('click', () => {
+      const rows = document.querySelectorAll('.dataRow');
+      if (rows.length > 1) {
+          newRow.remove();
+      } else {
+          deleteBtn.classList.add('disabled');
+      }
+  });
 }
