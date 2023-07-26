@@ -53,3 +53,26 @@
     font-size: 14px;
     font-weight: normal;
 }
+
+.sidebar .input-container input[type="number"] {
+    border: 1px solid #ccc;
+    width: 60px;
+    height:20px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.sidebar .select-container button{
+    background-color: #007BFF;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-top: 6px;
+    margin-right: 5px;
+    color: #fff;
+    height: 28px;
+}
+
+.sidebar .select-container button:hover {
+    background-color: blue; 
+  }

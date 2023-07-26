@@ -13,12 +13,14 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.5/xlsx.core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script type="module" src="./scripts/file.js" defer></script>
+    <script type="module" src="./scripts/select.js" defer></script>
 </head>
 
 <body>
     <div class="container">
         <div class="main-content">
             <canvas id="chartCanvas" width="800" height="600"></canvas>
+            <button id="saveButton">保存图片</button>
 
             <table id="dataInputTable">
                 <tr class="title">
@@ -26,15 +28,15 @@
                     <th>产量（万吨）</th>
                 </tr>
                 <tr class="dataRow">
-                    <td><input type="number" class="year" placeholder="2019"></td>
-                    <td><input type="number" class="yield" placeholder="2"></td>
+                    <td><input type="number" class="year" style="border: none !important;" placeholder="2019"></td>
+                    <td><input type="number" class="yield" style="border: none !important;" placeholder="2"></td>
                 </tr>
             </table>
             <button id="addRowBtn">+</button>
 
             <div class="button-container">
                 <input type="file" id="fileInput" accept=".csv, .xls, .xlsx">
-                <button id="loadDataFromFileBtn">选择文件</button>
+                <button id="loadDataFromFileBtn">上传文件</button>
                 <button id="drawChartBtn">绘制图表</button>
             </div>
         </div>
@@ -46,6 +48,24 @@
                     <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
                     <li><input type="checkbox" id="curve" checked>折线图</input></li>
                 </ul>
+                <div class="input-container">
+                    <div>年份范围：</div>
+                    <div>
+                        <input type="number" id="startYear">
+                        <label for="endYear">~</label>
+                        <input type="number" id="endYear">
+                    </div>
+                    <div>产量范围：</div>
+                    <div>
+                        <input type="number" id="startYield">
+                        <label for="endYield">~</label>
+                        <input type="number" id="endYield">
+                    </div>
+                </div>
+                <div class="select-container">
+                    <button id="filterBtn">筛选</button>
+                    <button id="resetBtn">取消</button>
+                </div>
                 <h4>产量刻度自适应</h4>
                 <li>
                     <div class="progress-bar" id="yTickAdapter">
