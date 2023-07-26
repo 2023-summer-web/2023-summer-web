@@ -17,6 +17,13 @@ addRowBtn.addEventListener('click', () => {
     newRow.innerHTML = `
         <td><input type="number" class="year" value="${defaultValue}"></td>
         <td><input type="number" class="yield"></td>
+        <td><button class="deleteBtn">删除</button></td>
     `;
     dataInputTable.appendChild(newRow);
+
+    // 添加删除按钮的点击事件监听器
+    const deleteBtn = newRow.querySelector('.deleteBtn');
+    deleteBtn.addEventListener('click', () => {
+        newRow.remove(); 
+    });
 });
