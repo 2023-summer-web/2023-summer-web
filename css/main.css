@@ -79,3 +79,7 @@ button[id=saveButton] {
     border: none;
     margin-bottom: 20px;
 }
+
+button[id=saveButton]:hover {
+    background-color: #38bbb2;
+}
