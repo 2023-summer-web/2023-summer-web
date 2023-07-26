@@ -31,6 +31,9 @@ function parseFile(file, fileExtension) {
     };
   
     fileReader.readAsBinaryString(file);
+
+    //完成后清空文件输入框
+    fileInput.value = '';
   }
   
 function processData(getdata) {
