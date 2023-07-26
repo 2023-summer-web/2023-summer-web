@@ -20,6 +20,7 @@
     <div class="container">
         <div class="main-content">
             <canvas id="chartCanvas" width="800" height="600"></canvas>
+            <button id="saveButton">保存图片</button>
 
             <table id="dataInputTable">
                 <tr class="title">
@@ -27,8 +28,8 @@
                     <th>产量（万吨）</th>
                 </tr>
                 <tr class="dataRow">
-                    <td><input type="number" class="year" placeholder="2019"></td>
-                    <td><input type="number" class="yield" placeholder="2"></td>
+                    <td><input type="number" class="year" style="border: none !important;" placeholder="2019"></td>
+                    <td><input type="number" class="yield" style="border: none !important;" placeholder="2"></td>
                 </tr>
             </table>
             <button id="addRowBtn">+</button>
@@ -47,22 +48,21 @@
                     <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
                     <li><input type="checkbox" id="curve" checked>折线图</input></li>
                 </ul>
-                <div>
-                    <label for="startYear">起始年份</label>
-                    <input type="number" id="startYear">
+                <div class="input-container">
+                    <div>年份范围：</div>
+                    <div>
+                        <input type="number" id="startYear">
+                        <label for="endYear">~</label>
+                        <input type="number" id="endYear">
+                    </div>
+                    <div>产量范围：</div>
+                    <div>
+                        <input type="number" id="startYield">
+                        <label for="endYield">~</label>
+                        <input type="number" id="endYield">
+                    </div>
                 </div>
-                <div>
-                    <label for="endYear">结束年份</label>
-                    <input type="number" id="endYear">
-                </div>
-                <div>产量：</div>
-                <div>
-                    <label for="startYield">≥</label>
-                    <input type="number" id="startYield">
-                    <label for="endYield">≤</label>
-                    <input type="number" id="endYield">
-                </div>
-                <div>
+                <div class="input-container">
                     <button id="filterBtn">筛选</button>
                     <button id="resetBtn">取消筛选</button>
                 </div>
