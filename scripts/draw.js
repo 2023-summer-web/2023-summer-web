@@ -56,28 +56,23 @@ function drawChart() {
     const data = [];
 
     for (const row of dataRows) {
-        const year = row.querySelector('.year').value;
-        const yieldInput = row.querySelector('.yield').value;
+        const year = parseInt(row.querySelector('.year').value);
+        const yieldInput = parseInt(row.querySelector('.yield').value);
 
-        // 判断行是否是隐藏的
-        if (row.style.display === 'none') {
-            continue; // 忽略被隐藏的行
-        }
-
-        if (year === '' || yieldInput === '') {
+        if (isNaN(year) || isNaN(yieldInput) || row.style.display === 'none') {
             continue;
         } else {
-            data.push([Number(year), Number(yieldInput)]);
+            data.push([year, yieldInput]);
         }
     }
+
+    // Sort the data by year
+    data.sort((a, b) => a[0] - b[0]);
 
     // Check if there is any data
     if (data.length === 0) {
         return;
     }
-
-    // 按照年份升序排序
-    data.sort((a, b) => a[0] - b[0]);
 
     // Bar width adaptive to the number of data, and the relevant constants
     // 2 * xAxisChartSpacing + (numberOfBars - 1) * xTickSpacing + numberOfBars * barWidth = xAxisLength
