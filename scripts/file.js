@@ -57,9 +57,16 @@ function addEventListener(year = '', yieldInput = '') {
     newRow.innerHTML = `
         <td><input type="number" class="year" value="${year}"></td>
         <td><input type="number" class="yield" value="${yieldInput}"></td>
+        <td><button class="deleteBtn">删除</button></td>
     `;
     newRow.querySelector('.year').value = year; // 设置年份输入框的值
     newRow.querySelector('.yield').value = yieldInput; // 设置产量输入框的值
 
     dataInputTable.appendChild(newRow);
+
+    // 添加删除按钮的点击事件监听器
+    const deleteBtn = newRow.querySelector('.deleteBtn');
+    deleteBtn.addEventListener('click', () => {
+        newRow.remove(); 
+    });
 }
