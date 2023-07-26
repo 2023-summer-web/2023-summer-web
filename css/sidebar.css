@@ -54,7 +54,11 @@
     font-weight: normal;
 }
 
-.sidebar .input-container input[type="number"] {
+.sidebar .filter-container {
+    margin-top: 40px;
+}
+
+.sidebar .filter-container input[type="number"] {
     border: 1px solid #ccc;
     width: 60px;
     height:20px;
@@ -63,16 +67,17 @@
     margin-top: 6px;
 }
 
-.sidebar .select-container button{
+.filter-container .button-container button {
     background-color: #007BFF;
     border: 1px solid #ccc; 
     border-radius: 5px; 
     margin-top: 6px;
     margin-right: 5px;
+    padding: auto;
     color: #fff;
-    height: 28px;
+    font-size: 14px;
 }
 
-.sidebar .select-container button:hover {
-    background-color: blue; 
-  }
+.filter-container .button-container button:hover {
+    background-color: #00A8FF; 
+}

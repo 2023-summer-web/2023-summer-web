@@ -32,12 +32,16 @@ body {
     color: #555555;
 }
 
-.main-content input[type="number"] {
-    border: none;
+.main-content table .dataRow input {
+    border: none !important;
 }
 
-.dataRow input::placeholder {
+.main-content table .dataRow input::placeholder {
     color: #CCCCCC; 
+}
+
+.main-content input[type="number"] {
+    border: none;
 }
 
 .main-content button[id=addRowBtn] {
@@ -45,7 +49,7 @@ body {
     align-items: center;
     position: relative;
     top: -30px;
-    left: 220px;
+    left: 210px;
     padding: 2px 8px;
     background-color: #39C5BB;
     color: #fff;
@@ -54,11 +58,11 @@ body {
     border: none;
 }
 
-button[id=addRowBtn]:hover {
+.main-content button[id=addRowBtn]:hover {
     background-color: #38bbb2;
 }
 
-button[id=deleteBtn] {
+.main-content table .dataRow button[class=deleteBtn] {
     display: flex;
     align-items: center;
     position: relative;
@@ -70,9 +74,9 @@ button[id=deleteBtn] {
     border-radius: 50%;
 }
 
-deleteBtn.disabled {
-    background-color: #ccc;
-    pointer-events: none;
+.main-content table .dataRow button[class=deleteBtn]:disabled {
+    background-color: #cccccc;
+    color: #fff;
 }
 
 .main-content .button-container {
@@ -92,7 +96,14 @@ deleteBtn.disabled {
     background-color: #38bbb2;
 }
 
-button[id=saveButton] {
+.button-container input[type=file] {
+    padding: 2px 8px;
+    color: transparent;
+    font-size: large;
+    border: none;
+}
+
+button[id=saveChartBtn] {
     padding: 2px 8px;
     background-color: #39C5BB;
     color: #fff;
@@ -101,6 +112,6 @@ button[id=saveButton] {
     margin-bottom: 20px;
 }
 
-button[id=saveButton]:hover {
+button[id=saveChartBtn]:hover {
     background-color: #38bbb2;
 }
