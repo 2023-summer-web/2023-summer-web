@@ -42,6 +42,9 @@ addRowBtn.addEventListener('click', () => {
     `;
     dataInputTable.appendChild(newRow);
 
+    // Focus on the new row
+    newRow.querySelector('.yield').focus();
+
     // Change the delete button status
     const rows = document.querySelectorAll('.dataRow');
     const deleteButtons = document.querySelectorAll('.deleteBtn');
