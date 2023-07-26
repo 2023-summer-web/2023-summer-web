@@ -5,9 +5,10 @@
   
     <title>Grain Statistics</title>
 
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/sidebar.css" />
 
-    <script type="module" src="./scripts/index.js" defer></script>
+    <script type="module" src="./scripts/main.js" defer></script>
     <script type="module" src="./scripts/draw.js" defer></script>
 </head>
 
@@ -36,11 +37,20 @@
         <div class="sidebar">
             <h2>设置</h2>
             <ul>
-                <li>图表：</li>
+                <h4>图表</h4>
                 <ul>
                     <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
                     <li><input type="checkbox" id="curve" checked>折线图</input></li>
                 </ul>
+                <h4>产量刻度自适应</h4>
+                <li>
+                    <div class="progress-bar" id="yTickAdapter">
+                        <div class="progress" id="yTickAdapterInner"></div>
+                        <ul>
+                            <li>0</li><li>25</li><li>50</li><li>75</li><li>100</li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

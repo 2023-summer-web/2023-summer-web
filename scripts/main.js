@@ -4,9 +4,6 @@ export const ctx = canvas.getContext('2d');
 export const dataInputTable = document.getElementById('dataInputTable').getElementsByTagName('tbody')[0];
 export const drawChartBtn = document.getElementById('drawChartBtn');
 
-export const histogramChoice = document.getElementById('histogram');
-export const curveChoice = document.getElementById('curve');
-
 const addRowBtn = document.getElementById('addRowBtn');
 
 /// Add a new row to the table
