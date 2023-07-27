@@ -42,7 +42,10 @@
             <button id="addRowBtn">+</button>
 
             <div class="button-container">
-                <input type="file" id="loadDataFromFileBtn" accept=".csv, .xls, .xlsx">
+                <label for="loadDataFromFileBtn" class="file-upload-btn">
+                    <i class="icon"></i> 上传文件
+                </label>
+                <input type="file" id="loadDataFromFileBtn" accept=".csv, .xls, .xlsx" style="display:none;">
                 <button id="saveChartBtn">保存图片</button>
             </div>
         </div>

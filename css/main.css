@@ -58,8 +58,8 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    top: -30px;
-    left: 205px;
+    top: -32px;
+    left: 218px;
     padding: 2px 8px;
     background-color: #39C5BB;
     color: #fff;
@@ -112,10 +112,36 @@ body {
     background-color: #42e1d7;
 }
 
-.button-container input[type=file] {
-    padding: 2px 8px;
-    color: transparent;
+#saveChartBtn::before {
+    background-image: url("../assets/download.svg");
+    background-size: 20px 20px; 
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-right: 4px; 
+    width: 20px;
+    height: 20px;
+    content: "";
+  }
+
+.file-upload-btn {
+    padding: 10px;
+    border: 2px #ccc;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #f5f5f5;
     font-size: large;
-    border: none;
-    border-radius: 10%;
+}
+  
+.file-upload-btn:hover {
+    background-color: #ebebeb;
+  }
+
+  .file-upload-btn .icon {
+    background-image: url('../assets/upload.svg');
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
 }
