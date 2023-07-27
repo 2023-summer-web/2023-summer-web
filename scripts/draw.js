@@ -48,6 +48,20 @@ dataInputTable.addEventListener('click', function(event) {
     }
 });
 
+// Listen for changes in child nodes of the table
+const observertable = new MutationObserver(() => {
+    drawChart();
+});
+
+const observerOptions = {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['style'], 
+};
+  
+observertable.observe(dataInputTable, observerOptions);
+
 /// Render the chart when the settings are changed
 histogramChoice.addEventListener('change', drawChart);
 curveChoice.addEventListener('change', drawChart);
@@ -69,20 +83,6 @@ const observer = new MutationObserver((mutationsList, observer) => {
 
 observer.observe(yTickAdapterInner, { attributes: true });
 colorWheels.forEach(colorWheel => observer.observe(colorWheel, { attributes: true }));
-
-// Listen for changes in child nodes of the table
-const observertable = new MutationObserver(() => {
-    drawChart();
-});
-
-const observerOptions = {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['style'], 
-};
-  
-observertable.observe(dataInputTable, observerOptions);
 
 /// Draw the chart
 export function drawChart() {

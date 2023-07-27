@@ -112,6 +112,10 @@ body {
     background-color: #42e1d7;
 }
 
+.button-container input[type=file] {
+    display: none;
+}
+
 #saveChartBtn::before {
     background-image: url("../assets/download.svg");
     background-size: 20px 20px; 
