@@ -1,30 +1,12 @@
 export const canvas = document.getElementById('chartCanvas');
 export const ctx = canvas.getContext('2d');
 
+export const canvasContainer = document.getElementById('canvas-container');
+
 export const dataInputTable = document.getElementById('dataInputTable').getElementsByTagName('tbody')[0];
-export const drawChartBtn = document.getElementById('drawChartBtn');
 
 const addRowBtn = document.getElementById('addRowBtn');
 const saveChartBtn = document.getElementById("saveChartBtn");
-
-/// Delete a row
-dataInputTable.addEventListener('click', function(event) {
-    if (event.target.classList.contains('deleteBtn') && !event.target.classList.contains('disabled')) {
-        const row = event.target.parentNode.parentNode;
-        row.remove();
-
-        // Change the delete button status
-        const rows = document.querySelectorAll('.dataRow');
-        const deleteButtons = document.querySelectorAll('.deleteBtn');
-        deleteButtons.forEach(button => {
-            if (rows.length > 1) {
-                button.disabled = false;
-            } else {
-                button.disabled = true;
-            }
-        });
-    }
-});
 
 /// Add a new row to the table
 addRowBtn.addEventListener('click', () => {

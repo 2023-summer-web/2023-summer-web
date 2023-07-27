@@ -24,7 +24,9 @@
 <body>
     <div class="container">
         <div class="main-content">
-            <canvas id="chartCanvas" width="800" height="600"></canvas>
+            <div id="canvas-container">
+                <canvas id="chartCanvas" width="800" height="600"></canvas>
+            </div>
             
             <table id="dataInputTable">
                 <tr class="title">
@@ -48,7 +50,7 @@
         <div class="sidebar">
             <h2>设置</h2>
             <ul>
-                <h4>图表</h4>
+                <h3>图表显示</h3>
                 <li>
                     <div id="chartChoice">
                         <ul>
@@ -57,7 +59,7 @@
                         </ul>
                     </div>
                 </li>
-                <h4>柱状图填充样式</h4>
+                <h3>柱状图填充样式</h3>
                 <li>
                     <div id="fillStyleChoice">
                         <ul>
@@ -91,7 +93,37 @@
                         <input type="file" id="patternFileBtn" accept=".png, .jpg, .jpeg, .gif">
                     </div>
                 </li>
-                <h4>产量刻度自适应</h4>
+                <h3>曲线图样式</h3>
+                <li>
+                    <div id="curveStyleChoice">
+                        <h4>曲线颜色</h4>
+                        <div class="colorWheel" id="curveColor"></div>
+                        <h4>曲线样式</h4>
+                        <ul>
+                            <li><input type="radio" name="lineDash" value="solid" checked>实线</input></li>
+                            <li><input type="radio" name="lineDash" value="dotted">虚线</input></li>
+                        </ul>
+                        <ul>
+                            <li><input type="radio" name="lineWidth" value="thin">较细</input></li>
+                            <li><input type="radio" name="lineWidth" value="normal" checked>普通</input></li>
+                            <li><input type="radio" name="lineWidth" value="thick">较粗</input></li>
+                        </ul>
+                        <h4>曲线点颜色</h4>
+                        <div class="colorWheel" id="pointColor"></div>
+                        <h4>曲线点样式</h4>
+                        <ul>
+                            <li><input type="radio" name="pointShape" value="circle" checked>圆形</input></li>
+                            <li><input type="radio" name="pointShape" value="square">方形</input></li>
+                        </ul>
+                        <ul>
+                            <li><input type="radio" name="pointRadius" value="thin">较小</input></li>
+                            <li><input type="radio" name="pointRadius" value="normal" checked>普通</input></li>
+                            <li><input type="radio" name="pointRadius" value="thick">较大</input></li>
+                        </ul>
+                    </div>
+                </li>
+                <h3>产量刻度自适应</h3>
+                <p class="note">数据极差 / 数据最大值 &lt; 设定阈值</p>
                 <li>
                     <div class="progress-bar" id="yTickAdapter">
                         <div class="progress" id="yTickAdapterInner"></div>
@@ -102,7 +134,7 @@
                 </li>
                 <li>
                     <div class="filter-container">
-                        <h4>筛选</h4>
+                        <h3>数据筛选</h3>
                         年份范围：
                         <div>
                             <input type="number" id="startYear">

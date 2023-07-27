@@ -80,6 +80,14 @@
     line-height: 1.5;
 }
 
+.sidebar #curveStyleChoice ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 1.5;
+}
+
 .sidebar #gradientChoice #verticalChoice ul {
     flex-direction: column;
     margin-left: 55px;
@@ -114,8 +122,18 @@
     font-weight: normal;
 }
 
+.sidebar .note {
+    position: relative;
+    margin-top: -1em;
+    font-size: 13px;
+    color: #999;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left center;
+}
+
 .sidebar .filter-container {
-    margin-top: 40px;
+    margin-top: 50px;
 }
 
 .sidebar .filter-container input[type="number"] {
