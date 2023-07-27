@@ -8,10 +8,23 @@ const endYieldInput = document.getElementById('endYield');
 
 // Filter the data
 filterBtn.addEventListener('click', () => {
-    const startYear = parseInt(startYearInput.value);
-    const endYear = parseInt(endYearInput.value);
-    const startYield = parseInt(startYieldInput.value);
-    const endYield = parseInt(endYieldInput.value);
+    let startYear = parseInt(startYearInput.value);
+    let endYear = parseInt(endYearInput.value);
+    let startYield = parseInt(startYieldInput.value);
+    let endYield = parseInt(endYieldInput.value);
+
+    // Resolve input exceptions for filtering
+    if (endYear < startYear) {
+        const temp = endYear;
+        endYear = startYear;
+        startYear = temp;
+    }
+
+    if (startYield > endYield) {
+        const temp = endYield;
+        endYield = startYield;
+        startYield = temp;
+    }
 
     const dataRows = document.getElementsByClassName('dataRow');
 

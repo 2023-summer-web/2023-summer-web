@@ -91,15 +91,32 @@ export function drawChart() {
     // Get data from table
     const dataRows = dataInputTable.getElementsByClassName('dataRow');
     const data = [];
+    const seenYears = {};
 
     for (const row of dataRows) {
-        const year = parseInt(row.querySelector('.year').value);
-        const yieldInput = parseInt(row.querySelector('.yield').value);
+        const yearIn = row.querySelector('.year');
+        const yieldIn = row.querySelector('.yield');
+        const year = parseInt(yearIn.value);
+        const yieldInput = parseInt(yieldIn.value);
 
-        if (isNaN(year) || isNaN(yieldInput) || row.style.display === 'none') {
+        // Change the color to red in illegal input
+        if (isNaN(year) || isNaN(yieldInput) || row.style.display === 'none'){
             continue;
+        } else if (yieldInput < 0 ) {
+            yearIn.style.color = 'red';
+            yieldIn.style.color = 'red';
         } else {
-            data.push([year, yieldInput]);
+            // Duplicate years retain only the first value
+            if (seenYears[year]) {
+                yearIn.style.color = 'red';
+                yieldIn.style.color = 'red';
+            }
+            else {
+                seenYears[year] = true;
+                yearIn.style.color = '';
+                yieldIn.style.color = '';
+                data.push([year, yieldInput]);
+            }
         }
     }
 
