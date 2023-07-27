@@ -1,5 +1,8 @@
-import { canvas, ctx, dataInputTable } from './main.js';
-import { histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted, colorWheels, radioInputs, subRadioInputs } from './sidebar.js';
+import { canvas, canvasContainer, ctx, dataInputTable } from './main.js';
+import { 
+    histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted, colorWheels,
+    radioInputs, subRadioInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
+} from './sidebar.js';
 
 // Axes position, relative to the canvas
 const xAxisLeftPostion = [50, canvas.height - 50];
@@ -18,21 +21,42 @@ const chartMaxHeight = yAxisLength - 50;
 const numberOfTicks = 6; 
 const yTickOffset = 10;
 
-// Point radius
-const pointRadius = 5; 
-
 const barTextSpacing = 5; // Spacing between the bar and the hovering value
 const xTickLineHeight = 15; // X-axis tick text line height
 const barCurveSpacing = 60; // Spacing between the bar and the curve
 
 /// Draw the chart when the data inputs are changed
 dataInputTable.addEventListener('change', drawChart);
+dataInputTable.addEventListener('click', function(event) {
+    if (event.target.classList.contains('deleteBtn') && !event.target.classList.contains('disabled')) {
+        const row = event.target.parentNode.parentNode;
+        row.remove();
+
+        // Change the delete button status
+        const rows = document.querySelectorAll('.dataRow');
+        const deleteButtons = document.querySelectorAll('.deleteBtn');
+        deleteButtons.forEach(button => {
+            if (rows.length > 1) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        });
+
+        // Draw the chart
+        drawChart();
+    }
+});
 
 /// Render the chart when the settings are changed
 histogramChoice.addEventListener('change', drawChart);
 curveChoice.addEventListener('change', drawChart);
 radioInputs.forEach(input => input.addEventListener('change', drawChart));
 subRadioInputs.forEach(input => input.addEventListener('change', drawChart));
+lineDashInputs.forEach(input => input.addEventListener('change', drawChart));
+lineWidthInputs.forEach(input => input.addEventListener('change', drawChart));
+pointShapeInputs.forEach(input => input.addEventListener('change', drawChart));
+pointSizeInputs.forEach(input => input.addEventListener('change', drawChart));
 
 const observer = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
@@ -49,10 +73,6 @@ colorWheels.forEach(colorWheel => observer.observe(colorWheel, { attributes: tru
 /// Draw the chart
 export function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Set parameters
-    // TODO: Make these parameters changable
-    const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
 
     // Get data from table
     const dataRows = dataInputTable.getElementsByClassName('dataRow');
@@ -91,7 +111,6 @@ export function drawChart() {
     const yieldGap = maxYield - minYield;
 
     // Draw axes
-    setCtxStyle();
     drawAxes();
 
     // Adapt and draw the Y-axis ticks
@@ -162,24 +181,19 @@ export function drawChart() {
 
     // Draw the curve
     if (curveChoice.checked) {
-        for (let i = 0; i < data.length; i++) {
-            const yieldInput = data[i][1];
-            const yieldRatio = yieldInput / yieldSum;
-
-            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
-            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
-
-            // Draw the point
-            drawSolidCircle(pointX, pointY, pointRadius, curveColor);
-
-            // Show the value in the form of ratio
-            setCtxStyle('black', '14px Arial', 'center');
-            ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
+        // Set the stroke style
+        ctx.strokeStyle = colorWheels[5].style.backgroundColor;
+        if (lineDashInputs[1].checked) {
+            ctx.setLineDash([5, 5]);
         }
+        lineWidthInputs.forEach((input, index) => {
+            if (input.checked) {
+                ctx.lineWidth = Number(index + 1);
+            }
+        });
 
+        // Draw the curve
         ctx.beginPath();
-        ctx.strokeStyle = curveColor;
-        ctx.lineWidth = 2;
         for (let i = 0; i < data.length; i++) {
             const yieldInput = data[i][1];
 
@@ -193,6 +207,46 @@ export function drawChart() {
             }
         }
         ctx.stroke();
+
+        // Set the point style
+        const pointColor = colorWheels[6].style.backgroundColor;
+        let pointRadius;
+        pointSizeInputs.forEach((input, index) => {
+            if (input.checked) {
+                pointRadius = Number((index + 1) * 2 + 1);
+            }
+        });
+
+        // Draw the points
+        for (let i = 0; i < data.length; i++) {
+            const yieldInput = data[i][1];
+
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
+
+            console.log(pointRadius);
+
+            // Draw the point
+            if (pointShapeInputs[0].checked) {
+                drawSolidCircle(pointX, pointY, pointRadius, pointColor);
+            } else if (pointShapeInputs[1].checked) {
+                ctx.fillStyle = pointColor;
+                ctx.fillRect(pointX - pointRadius, pointY - pointRadius, pointRadius * 2, pointRadius * 2);
+            }
+        }
+
+        // Draw the ticks and values
+        setCtxStyle('black', '14px Arial', 'center');
+        for (let i = 0; i < data.length; i++) {
+            const yieldInput = data[i][1];
+            const yieldRatio = yieldInput / yieldSum;
+
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
+            const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
+
+            // Show the value in the form of ratio
+            ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
+        }
     } 
 }
 
@@ -206,6 +260,7 @@ function drawAxes() {
     // Set the color and width of axes
     setCtxStyle();
     ctx.strokeStyle = 'gray';
+    ctx.setLineDash([]);
     ctx.lineWidth = 2;
 
     // Draw X-axis

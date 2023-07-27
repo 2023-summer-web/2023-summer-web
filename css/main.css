@@ -21,9 +21,15 @@ body {
     flex-direction: column;
 }
 
-.main-content canvas {
+.main-content #canvas-container {
+    overflow: hidden;
+    width: 800px;
+    height: 600px;
     border: 1px solid #ccc;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-content table {

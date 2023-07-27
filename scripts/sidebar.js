@@ -1,5 +1,4 @@
-import { ctx } from "./main.js";
-import { drawChart } from "./draw.js";
+import { canvas, canvasContainer } from "./main.js";
 
 const sidebar = document.querySelector('.sidebar');
 
@@ -8,10 +7,17 @@ export const curveChoice = document.getElementById('curve');
 
 export const radioInputs = document.querySelectorAll("input[type=radio][name=option]");
 export const subRadioInputs = document.querySelectorAll("input[type=radio][name=gradientOption]");
+export const lineDashInputs = document.querySelectorAll("input[type=radio][name=lineDash]");
+export const lineWidthInputs = document.querySelectorAll("input[type=radio][name=lineWidth]");
+export const pointShapeInputs = document.querySelectorAll("input[type=radio][name=pointShape]");
+export const pointSizeInputs = document.querySelectorAll("input[type=radio][name=pointRadius]");
 
 export const colorWheels = document.querySelectorAll('.colorWheel');
 colorWheels.forEach(colorWheel => {
     colorWheel.style.backgroundColor = '#4693E0';   // default color
+    if (colorWheel.id === 'curveColor' || colorWheel.id === 'pointColor') {
+        colorWheel.style.backgroundColor = '#39C5BB';   // The representative color of YOU-KNOW-WHO
+    }
 });
 
 let isDraggingColorWheels = new Array(colorWheels.length).fill(false);
@@ -22,11 +28,31 @@ export const yTickAdapterInner = document.getElementById('yTickAdapterInner');
 let isDraggingProgress = false;
 let progress = 0.25;
 
+let scale = 1.0;
+
 document.addEventListener('wheel', (event) => {
     const sidebarRect = sidebar.getBoundingClientRect();
+    const canvasContainerRect = canvasContainer.getBoundingClientRect();
     if (event.clientX >= sidebarRect.left && event.clientX <= sidebarRect.right &&
         event.clientY >= sidebarRect.top && event.clientY <= sidebarRect.bottom) {
-      sidebar.scrollTop += event.deltaY;
+        sidebar.scrollTop += event.deltaY;
+    } else if (event.clientX >= canvasContainerRect.left && event.clientX <= canvasContainerRect.right &&
+        event.clientY >= canvasContainerRect.top && event.clientY <= canvasContainerRect.bottom) {
+        // Zoom the canvas
+        const delta = Math.max(-1, Math.min(1, event.deltaY));
+        const zoomStep = 0.003;
+    
+        // Scaling range: [0.75, 1.5]
+        // Canvas size range: [600, 450] ~ [1200, 900] (initial size: 800, 600)
+        scale = Math.max(0.75, Math.min(1.5, scale + delta * zoomStep));
+    
+        // Scale the canvas with the center point as the origin
+        canvas.style.transformOrigin = 'center center';
+        canvas.style.transform = `scale(${scale})`;
+    
+        // Adjust the canvas container size
+        canvasContainer.style.width = `${800 * scale}px`;
+        canvasContainer.style.height = `${600 * scale}px`;
     } else {
         window.scrollBy(0, event.deltaY);
     }
