@@ -1,12 +1,15 @@
 .sidebar {
     position: fixed;
     right: 0;
+    padding: 20px;
     background-color: #f3f3f3;
     opacity: 0.5;
     color: black;
     width: 200px;
-    padding: 20px;
+    height: 100%;
     min-height: 100vh;
+    overflow-y: auto;
+    overflow: hidden;
 }
 
 .sidebar ul {
@@ -19,10 +22,67 @@
     margin-bottom: 10px;
 }
 
+.sidebar #chartChoice ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 1.5;
+}
+
 .sidebar input[type=checkbox] {
+    margin: 0 auto;
     margin-right: 0.5em;
     vertical-align: middle;
     zoom: 120%;
+}
+
+.sidebar #fillStyleChoice ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 1.5;
+}
+
+.sidebar input[type=radio] {
+    margin: 0 auto;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    zoom: 120%;
+}
+
+.sidebar .dropdown-content {
+    display: none;
+}
+
+.sidebar .colorWheel {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid black;
+    background: conic-gradient(
+      from -90deg, red, yellow, lime, cyan, blue, magenta, red
+    );
+}
+
+.sidebar .gradient .colorWheel {
+    width: 90px;
+    height: 90px;
+    border: 1px solid black;
+}
+
+.sidebar #gradientChoice ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    line-height: 1.5;
+}
+
+.sidebar #gradientChoice #verticalChoice ul {
+    flex-direction: column;
+    margin-left: 55px;
 }
 
 .sidebar .progress-bar {
