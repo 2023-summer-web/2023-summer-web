@@ -1,6 +1,5 @@
-// import index.js
-import { canvas, ctx, dataInputTable, drawChartBtn } from './main.js';
-import { histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted } from './sidebar.js';
+import { canvas, ctx, dataInputTable } from './main.js';
+import { histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted, colorWheels, radioInputs, subRadioInputs } from './sidebar.js';
 
 // Axes position, relative to the canvas
 const xAxisLeftPostion = [50, canvas.height - 50];
@@ -26,15 +25,14 @@ const barTextSpacing = 5; // Spacing between the bar and the hovering value
 const xTickLineHeight = 15; // X-axis tick text line height
 const barCurveSpacing = 60; // Spacing between the bar and the curve
 
-const barColor = '#4693E0';
-const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
-
 /// Draw the chart when the data inputs are changed
 dataInputTable.addEventListener('change', drawChart);
 
 /// Render the chart when the settings are changed
 histogramChoice.addEventListener('change', drawChart);
 curveChoice.addEventListener('change', drawChart);
+radioInputs.forEach(input => input.addEventListener('change', drawChart));
+subRadioInputs.forEach(input => input.addEventListener('change', drawChart));
 
 const observer = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
@@ -46,10 +44,15 @@ const observer = new MutationObserver((mutationsList, observer) => {
 });
 
 observer.observe(yTickAdapterInner, { attributes: true });
+colorWheels.forEach(colorWheel => observer.observe(colorWheel, { attributes: true }));
 
 /// Draw the chart
-function drawChart() {
+export function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Set parameters
+    // TODO: Make these parameters changable
+    const curveColor = '#39C5BB'; // The representative color of YOU-KNOW-WHO
 
     // Get data from table
     const dataRows = dataInputTable.getElementsByClassName('dataRow');
@@ -110,6 +113,24 @@ function drawChart() {
 
     // Draw the histogram
     if (histogramChoice.checked) {
+        // Set the fill style
+        if (radioInputs[0].checked) {
+            ctx.fillStyle = colorWheels[0].style.backgroundColor;
+        } else if (radioInputs[1].checked) {
+            if (subRadioInputs[0].checked) {
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, colorWheels[1].style.backgroundColor);
+                gradient.addColorStop(1, colorWheels[2].style.backgroundColor);
+                ctx.fillStyle = gradient;
+            } else if (subRadioInputs[1].checked) {
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                gradient.addColorStop(0, colorWheels[3].style.backgroundColor);
+                gradient.addColorStop(1, colorWheels[4].style.backgroundColor);
+                ctx.fillStyle = gradient;
+            }
+        }
+
+        // Draw the bars
         for (let i = 0; i < data.length; i++) {
             const year = data[i][0];
             const yieldInput = data[i][1];
@@ -119,11 +140,19 @@ function drawChart() {
             const barHeight = yieldInput * barHeightPerUnit - barHeightOffset;
 
             // Draw the bar
-            ctx.fillStyle = barColor;
             ctx.fillRect(pointX, pointY, barWidth, -barHeight);
+        }
 
-            // Draw the value and year
-            setCtxStyle('black', '14px Arial', 'center');
+        // Draw the ticks and values
+        setCtxStyle('black', '14px Arial', 'center');
+        for (let i = 0; i < data.length; i++) {
+            const year = data[i][0];
+            const yieldInput = data[i][1];
+
+            const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
+            const pointY = xAxisLeftPostion[1];
+            const barHeight = yieldInput * barHeightPerUnit - barHeightOffset;
+
             // Show the value
             ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
             // Show the year

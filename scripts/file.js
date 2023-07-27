@@ -1,6 +1,7 @@
 import { dataInputTable } from './main.js';
+import { drawChart } from './draw.js';
 
-const loadDataFromFileBtn = document.getElementById('loadDataFromFileBtn');
+export const loadDataFromFileBtn = document.getElementById('loadDataFromFileBtn');
 
 loadDataFromFileBtn.addEventListener('change', () => {
     let file = loadDataFromFileBtn.files[0];
@@ -59,4 +60,5 @@ function processData(data) {
             dataInputTable.appendChild(newRow);
         }
     }
+    drawChart();
 }

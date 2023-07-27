@@ -4,13 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Grain Statistics</title>
+    <title>穗收 Grain Statistics</title>
 
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
 
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./assets/favicon.png" type="image/png" />
+
     <script type="module" src="./scripts/main.js" defer></script>
     <script type="module" src="./scripts/draw.js" defer></script>
+    <script type="module" src="./scripts/sidebar.js" defer></script>
     <script type="module" src="./scripts/file.js" defer></script>
     <script type="module" src="./scripts/filter.js" defer></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.5/xlsx.core.min.js"></script>
@@ -45,10 +49,48 @@
             <h2>设置</h2>
             <ul>
                 <h4>图表</h4>
-                <ul>
-                    <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
-                    <li><input type="checkbox" id="curve" checked>折线图</input></li>
-                </ul>
+                <li>
+                    <div id="chartChoice">
+                        <ul>
+                            <li><input type="checkbox" id="histogram" checked>柱状图</input></li>
+                            <li><input type="checkbox" id="curve" checked>折线图</input></li>
+                        </ul>
+                    </div>
+                </li>
+                <h4>柱状图填充样式</h4>
+                <li>
+                    <div id="fillStyleChoice">
+                        <ul>
+                            <li><input type="radio" name="option" value="color" checked>色彩</input></li>
+                            <li><input type="radio" name="option" value="gradient">渐变</input></li>
+                            <li><input type="radio" name="option" value="pattern" disabled>图像</input></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown-content" id="colorChoice">
+                        <div class="colorWheel"></div>
+                    </div>
+                    <div class="dropdown-content" id="gradientChoice">
+                        <ul>
+                            <li><input type="radio" name="gradientOption" value="vertical" checked>上下</input></li>
+                            <li><input type="radio" name="gradientOption" value="horizontal">左右</input></li>
+                        </ul>
+                        <div class="sub-dropdown-content" id="verticalChoice">
+                            <ul>
+                                <li><span class="gradient"><div class="colorWheel"></div></span></li>
+                                <li><span class="gradient"><div class="colorWheel"></div></span></li>
+                            </ul>
+                        </div>
+                        <div class="sub-dropdown-content" id="horizontalChoice">
+                            <ul>
+                                <li><span class="gradient"><div class="colorWheel"></div></span></li>
+                                <li><span class="gradient"><div class="colorWheel"></div></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown-content" id="patternChoice">
+                        <input type="file" id="patternFileBtn" accept=".png, .jpg, .jpeg, .gif">
+                    </div>
+                </li>
                 <h4>产量刻度自适应</h4>
                 <li>
                     <div class="progress-bar" id="yTickAdapter">
@@ -80,6 +122,7 @@
                      </div>
                 </li>
             </ul>
+            <br/>
         </div>
     </div>
 </body>
