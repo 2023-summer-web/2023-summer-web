@@ -1,6 +1,8 @@
 import { addRowBtn, saveChartBtn, dataInputTable } from './main.js'
 import { drawChart } from './draw.js';
 
+const noDataTip = document.getElementById('noDataTip');
+
 /// Add a new row to the table
 addRowBtn.addEventListener('click', () => {
     const lastRow = dataInputTable.lastElementChild;
@@ -70,3 +72,21 @@ saveChartBtn.addEventListener("click", function() {
     }
 });
 
+function checkNoData() {
+    let allHidden = true;
+    const rows = document.querySelectorAll('.dataRow');
+    rows.forEach(row => {
+        if (row.style.display !== 'none') {
+            allHidden = false;
+        }
+    });
+    return allHidden;
+}
+
+export function checkNoDataTip() {
+    if (checkNoData()) {
+        noDataTip.style.display = 'table-row';
+    } else {
+        noDataTip.style.display = 'none';
+    }
+}

@@ -42,6 +42,10 @@ body {
     color: #555555;
 }
 
+.main-content table #noDataTip {
+    display: none;
+}
+
 .main-content table .dataRow input {
     border: none !important;
 }
@@ -59,7 +63,7 @@ body {
     align-items: center;
     position: relative;
     top: -32px;
-    left: 218px;
+    left: 210px;
     padding: 2px 8px;
     background-color: #39C5BB;
     color: #fff;
@@ -73,7 +77,7 @@ body {
     background-color: #42e1d7;
 }
 
-.main-content table .dataRow button[class=deleteBtn] {
+.main-content table button[class=deleteBtn] {
     display: flex;
     align-items: center;
     position: relative;
@@ -89,7 +93,7 @@ body {
     background-color: #ff0000;
 }
 
-.main-content table .dataRow button[class=deleteBtn]:disabled {
+.main-content table button[class=deleteBtn]:disabled {
     background-color: #cccccc;
     color: #fff;
 }

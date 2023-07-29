@@ -3,6 +3,7 @@ import {
     histogramChoice, curveChoice, shouldBeAdapted, colorWheels, radioInputs, 
     subRadioInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
 } from './sidebar.js';
+import { checkNoDataTip } from './table.js'
 
 // Axes position, relative to the canvas
 const xAxisLeftPostion = [50, canvas.height - 50];
@@ -26,9 +27,15 @@ const xTickLineHeight = 15; // X-axis tick text line height
 const barCurveSpacing = 60; // Spacing between the bar and the curve
 
 /// Redraw the chart when the data inputs are changed
-dataInputTable.addEventListener('change', drawChart);
+dataInputTable.addEventListener('change', () => {
+    checkNoDataTip();
+    drawChart();
+});
 
-const tableObserver = new MutationObserver(drawChart);
+const tableObserver = new MutationObserver(() => {
+    checkNoDataTip();
+    drawChart();
+});
 
 tableObserver.observe(dataInputTable, {
     subtree: true,
