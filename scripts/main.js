@@ -1,16 +1,16 @@
-export const canvas = document.getElementById('chartCanvas');
+export const canvas = document.getElementById('chart-canvas');
 export const ctx = canvas.getContext('2d');
 
 export const canvasContainer = document.getElementById('canvas-container');
 
 let scale = 1.0;
 
-export const dataInputTable = document.getElementById('dataInputTable').getElementsByTagName('tbody')[0];
+export const dataInputTable = document.getElementById('data-input-table').getElementsByTagName('tbody')[0];
 
 export const sidebar = document.getElementById('sidebar');
 
-export const addRowBtn = document.getElementById('addRowBtn');
-export const saveChartBtn = document.getElementById("saveChartBtn");
+export const addRowBtn = document.getElementById('add-row-button');
+export const saveChartBtn = document.getElementById("save-chart-button");
 
 /// Mouse wheel event listener
 document.addEventListener('wheel', (event) => {
