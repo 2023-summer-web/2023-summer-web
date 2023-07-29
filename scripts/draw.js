@@ -182,7 +182,6 @@ export function drawChart() {
 
         // Draw the bars
         for (let i = 0; i < data.length; i++) {
-            const year = data[i][0];
             const yieldInput = data[i][1];
 
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
@@ -196,7 +195,6 @@ export function drawChart() {
         // Draw the ticks and values
         setCtxStyle('black', '14px Arial', 'center');
         for (let i = 0; i < data.length; i++) {
-            const year = data[i][0];
             const yieldInput = data[i][1];
 
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
@@ -205,9 +203,19 @@ export function drawChart() {
 
             // Show the value
             ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
-            // Show the year
-            ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
         }
+    }
+
+    // Draw the year
+    setCtxStyle('black', '14px Arial', 'center');
+    for (let i = 0; i < data.length; i++) {
+        const year = data[i][0];
+
+        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
+        const pointY = xAxisLeftPostion[1];
+
+        // Show the year
+        ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
     }
 
     // Draw the curve
@@ -276,7 +284,8 @@ export function drawChart() {
             const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
 
             // Show the value in the form of ratio
-            ctx.fillText((yieldRatio * 100).toFixed(0) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
+            // One decimal place reserved for curves values
+            ctx.fillText((yieldRatio * 100).toFixed(1) + '%', pointX, pointY - pointRadius - xTickLineHeight / 2);
         }
     } 
 }
