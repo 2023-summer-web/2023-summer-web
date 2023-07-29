@@ -1,12 +1,12 @@
-export const filterBtn = document.getElementById('filterBtn');
-export const resetBtn = document.getElementById('resetBtn');
+const filterBtn = document.getElementById('filterBtn');
+const resetBtn = document.getElementById('resetBtn');
 
 const startYearInput = document.getElementById('startYear');
 const endYearInput = document.getElementById('endYear');
 const startYieldInput = document.getElementById('startYield'); 
 const endYieldInput = document.getElementById('endYield');
 
-// Filter the data
+/// Filter the data
 filterBtn.addEventListener('click', () => {
     let startYear = parseInt(startYearInput.value);
     let endYear = parseInt(endYearInput.value);
@@ -42,7 +42,7 @@ filterBtn.addEventListener('click', () => {
     }
 });
 
-// Reset the data
+/// Reset the data
 resetBtn.addEventListener('click', () => {
     // Clear the text inputs
     startYearInput.value = '';

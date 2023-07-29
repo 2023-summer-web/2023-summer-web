@@ -1,7 +1,7 @@
-import { canvas, canvasContainer, ctx, dataInputTable } from './main.js';
+import { canvas, ctx, dataInputTable, sidebar } from './main.js';
 import { 
-    histogramChoice, curveChoice, yTickAdapterInner, shouldBeAdapted, colorWheels,
-    radioInputs, subRadioInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
+    histogramChoice, curveChoice, shouldBeAdapted, colorWheels, radioInputs, 
+    subRadioInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
 } from './sidebar.js';
 
 // Axes position, relative to the canvas
@@ -25,66 +25,36 @@ const barTextSpacing = 5; // Spacing between the bar and the hovering value
 const xTickLineHeight = 15; // X-axis tick text line height
 const barCurveSpacing = 60; // Spacing between the bar and the curve
 
-/// Draw the chart when the data inputs are changed
+/// Redraw the chart when the data inputs are changed
 dataInputTable.addEventListener('change', drawChart);
-dataInputTable.addEventListener('click', function(event) {
-    if (event.target.classList.contains('deleteBtn') && !event.target.classList.contains('disabled')) {
-        const row = event.target.parentNode.parentNode;
-        row.remove();
 
-        // Change the delete button status
-        const rows = document.querySelectorAll('.dataRow');
-        const deleteButtons = document.querySelectorAll('.deleteBtn');
-        deleteButtons.forEach(button => {
-            if (rows.length > 1) {
-                button.disabled = false;
-            } else {
-                button.disabled = true;
-            }
-        });
+const tableObserver = new MutationObserver(drawChart);
 
-        // Draw the chart
+tableObserver.observe(dataInputTable, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['style'],
+});
+
+/// Redraw the chart when the sidebar settings are changed
+sidebar.addEventListener('change', (e) => {
+    const targetElement = e.target;
+    if (targetElement.matches('input[type=checkbox], input[type=radio]')) {
         drawChart();
     }
 });
 
-// Listen for changes in child nodes of the table
-const observertable = new MutationObserver(() => {
-    drawChart();
-});
+const sidebarObserver = new MutationObserver(drawChart);
 
-const observerOptions = {
+sidebarObserver.observe(sidebar, {
     subtree: true,
     childList: true,
     attributes: true,
-    attributeFilter: ['style'], 
-};
-  
-observertable.observe(dataInputTable, observerOptions);
-
-/// Render the chart when the settings are changed
-histogramChoice.addEventListener('change', drawChart);
-curveChoice.addEventListener('change', drawChart);
-radioInputs.forEach(input => input.addEventListener('change', drawChart));
-subRadioInputs.forEach(input => input.addEventListener('change', drawChart));
-lineDashInputs.forEach(input => input.addEventListener('change', drawChart));
-lineWidthInputs.forEach(input => input.addEventListener('change', drawChart));
-pointShapeInputs.forEach(input => input.addEventListener('change', drawChart));
-pointSizeInputs.forEach(input => input.addEventListener('change', drawChart));
-
-const observer = new MutationObserver((mutationsList, observer) => {
-    for (const mutation of mutationsList) {
-        if (mutation.attributeName === 'style') {
-            drawChart();
-            break;
-        }
-    }
+    attributeFilter: ['style'],
 });
 
-observer.observe(yTickAdapterInner, { attributes: true });
-colorWheels.forEach(colorWheel => observer.observe(colorWheel, { attributes: true }));
-
-/// Draw the chart
+/// Draw chart functions ///
 export function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -106,7 +76,7 @@ export function drawChart() {
             yearIn.style.color = 'red';
             yieldIn.style.color = 'red';
         } else {
-            // Duplicate years retain only the first value
+            // Retain the first value if there are multiple values for the same year
             if (seenYears[year]) {
                 yearIn.style.color = 'red';
                 yieldIn.style.color = 'red';
@@ -144,13 +114,27 @@ export function drawChart() {
     // Draw axes
     drawAxes();
 
-    // Adapt and draw the Y-axis ticks
+    // Adapt layout parameters to the data
     const shouldBeAdaptedFlag = data.length > 1 && shouldBeAdapted(yieldGap, maxYield); // If there is only one data point, don't adapt
     const tickUnit = Math.ceil(shouldBeAdaptedFlag ? yieldGap / (numberOfTicks - 1) : maxYield / numberOfTicks);
     const tickSpacing = chartMaxHeight / numberOfTicks;
     const barHeightPerUnit = tickSpacing / tickUnit;
     const barHeightOffset = shouldBeAdaptedFlag ? (minYield - tickUnit) * barHeightPerUnit : 0;
 
+    // Adapt and draw the X-axis ticks
+    ctx.fillStyle = 'black';
+    setCtxFontStyle('14 Arial', 'center');
+    for (let i = 0; i < data.length; i++) {
+        const year = data[i][0];
+
+        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
+        const pointY = xAxisLeftPostion[1];
+
+        // Show the year
+        ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
+    }
+
+    // Adapt and draw the Y-axis ticks
     for (let i = 0; i <= numberOfTicks; i++) {
         const pointY = xAxisLeftPostion[1] - i * tickSpacing;
         if (i === 0) {
@@ -163,7 +147,7 @@ export function drawChart() {
 
     // Draw the histogram
     if (histogramChoice.checked) {
-        // Set the fill style
+        // Set the bar style
         if (radioInputs[0].checked) {
             ctx.fillStyle = colorWheels[0].style.backgroundColor;
         } else if (radioInputs[1].checked) {
@@ -188,12 +172,12 @@ export function drawChart() {
             const pointY = xAxisLeftPostion[1];
             const barHeight = yieldInput * barHeightPerUnit - barHeightOffset;
 
-            // Draw the bar
             ctx.fillRect(pointX, pointY, barWidth, -barHeight);
         }
 
-        // Draw the ticks and values
-        setCtxStyle('black', '14px Arial', 'center');
+        // Draw the bar text
+        ctx.fillStyle = 'black';
+        setCtxFontStyle('14 Arial', 'center');
         for (let i = 0; i < data.length; i++) {
             const yieldInput = data[i][1];
 
@@ -201,21 +185,8 @@ export function drawChart() {
             const pointY = xAxisLeftPostion[1];
             const barHeight = yieldInput * barHeightPerUnit - barHeightOffset;
 
-            // Show the value
             ctx.fillText(yieldInput, pointX + barWidth / 2, pointY - barHeight - barTextSpacing);
         }
-    }
-
-    // Draw the year
-    setCtxStyle('black', '14px Arial', 'center');
-    for (let i = 0; i < data.length; i++) {
-        const year = data[i][0];
-
-        const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth);
-        const pointY = xAxisLeftPostion[1];
-
-        // Show the year
-        ctx.fillText(year, pointX + barWidth / 2, pointY + xTickLineHeight);
     }
 
     // Draw the curve
@@ -263,9 +234,6 @@ export function drawChart() {
             const pointX = xAxisLeftPostion[0] + xAxisChartSpacing + i * (xTickSpacing + barWidth) + barWidth / 2;
             const pointY = xAxisLeftPostion[1] - yieldInput * barHeightPerUnit + barHeightOffset - barCurveSpacing;
 
-            console.log(pointRadius);
-
-            // Draw the point
             if (pointShapeInputs[0].checked) {
                 drawSolidCircle(pointX, pointY, pointRadius, pointColor);
             } else if (pointShapeInputs[1].checked) {
@@ -275,7 +243,8 @@ export function drawChart() {
         }
 
         // Draw the ticks and values
-        setCtxStyle('black', '14px Arial', 'center');
+        ctx.fillStyle = 'black';
+        setCtxFontStyle('14 Arial', 'center');
         for (let i = 0; i < data.length; i++) {
             const yieldInput = data[i][1];
             const yieldRatio = yieldInput / yieldSum;
@@ -290,15 +259,10 @@ export function drawChart() {
     } 
 }
 
-function setCtxStyle(fillStyle='black', font='14px Arial', textAlign='right') {
-    ctx.fillStyle = fillStyle;
-    ctx.font = font;
-    ctx.textAlign = textAlign;
-}
-
 function drawAxes() {
     // Set the color and width of axes
-    setCtxStyle();
+    ctx.fillStyle = 'black';
+    setCtxFontStyle('14 Arial', 'center');
     ctx.strokeStyle = 'gray';
     ctx.setLineDash([]);
     ctx.lineWidth = 2;
@@ -324,10 +288,15 @@ function drawAxes() {
     ctx.stroke();
 
     // Draw the labels of axes
-    const yieldInfo = "产量\n（万吨）"; // TODO: How to make line break?
+    const yieldInfo = "产量\n（万吨）";
     ctx.fillText(yieldInfo, yAxisTopPostion[0] + 50, yAxisTopPostion[1] - 20);
     const yearInfo = "年份";
     ctx.fillText(yearInfo, xAxisRightPostion[0] + 40, xAxisRightPostion[1] + 10);
+}
+
+function setCtxFontStyle(font='14px Arial', textAlign='right') {
+    ctx.font = font;
+    ctx.textAlign = textAlign;
 }
 
 /// Draw a solid circle
