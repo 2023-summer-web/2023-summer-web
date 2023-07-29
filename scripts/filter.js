@@ -1,10 +1,10 @@
-const filterBtn = document.getElementById('filterBtn');
-const resetBtn = document.getElementById('resetBtn');
+const startYearInput = document.getElementById('start-year');
+const endYearInput = document.getElementById('end-year');
+const startYieldInput = document.getElementById('start-yield'); 
+const endYieldInput = document.getElementById('end-yield');
 
-const startYearInput = document.getElementById('startYear');
-const endYearInput = document.getElementById('endYear');
-const startYieldInput = document.getElementById('startYield'); 
-const endYieldInput = document.getElementById('endYield');
+const filterBtn = document.getElementById('filter-button');
+const resetBtn = document.getElementById('reset-button');
 
 /// Filter the data
 filterBtn.addEventListener('click', () => {
@@ -26,7 +26,7 @@ filterBtn.addEventListener('click', () => {
         startYield = temp;
     }
 
-    const dataRows = document.getElementsByClassName('dataRow');
+    const dataRows = document.querySelectorAll('.data-row');
 
     for (const row of dataRows) {
         const yearInput = row.querySelector('.year');
@@ -51,7 +51,7 @@ resetBtn.addEventListener('click', () => {
     endYieldInput.value = '';
 
     // Show all the rows
-    const dataRows = document.getElementsByClassName('dataRow');
+    const dataRows = document.querySelectorAll('.data-row');
     for (const row of dataRows) {
         row.style.display = 'table-row';
     }

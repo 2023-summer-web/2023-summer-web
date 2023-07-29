@@ -1,7 +1,7 @@
-import { addRowBtn, saveChartBtn, dataInputTable } from './main.js'
+import { canvas, addRowBtn, saveChartBtn, dataInputTable } from './main.js'
 import { drawChart } from './draw.js';
 
-const noDataTip = document.getElementById('noDataTip');
+const noDataTip = document.getElementById('no-data-tip');
 
 /// Add a new row to the table
 addRowBtn.addEventListener('click', () => {
@@ -11,11 +11,11 @@ addRowBtn.addEventListener('click', () => {
 
     // Add a new row
     const newRow = document.createElement('tr');
-    newRow.className = 'dataRow';
+    newRow.className = 'data-row';
     newRow.innerHTML = `
         <td><input type="number" class="year" value="${defaultValue}"></td>
         <td><input type="number" class="yield"></td>
-        <td><button class="deleteBtn">×</button></td>
+        <td><button class="delete-button">×</button></td>
     `;
     dataInputTable.appendChild(newRow);
 
@@ -23,8 +23,8 @@ addRowBtn.addEventListener('click', () => {
     newRow.querySelector('.yield').focus();
 
     // Change the delete button status
-    const rows = document.querySelectorAll('.dataRow');
-    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const rows = document.querySelectorAll('.data-row');
+    const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
         if (rows.length > 1) {
             button.disabled = false;
@@ -36,13 +36,13 @@ addRowBtn.addEventListener('click', () => {
 
 /// Delete a row from the table
 dataInputTable.addEventListener('click', function(event) {
-    if (event.target.classList.contains('deleteBtn') && !event.target.classList.contains('disabled')) {
+    if (event.target.classList.contains('delete-button') && !event.target.classList.contains('disabled')) {
         const row = event.target.parentNode.parentNode;
         row.remove();
 
         // Change the delete button status
-        const rows = document.querySelectorAll('.dataRow');
-        const deleteButtons = document.querySelectorAll('.deleteBtn');
+        const rows = document.querySelectorAll('.data-row');
+        const deleteButtons = document.querySelectorAll('.delete-button');
         deleteButtons.forEach(button => {
             if (rows.length > 1) {
                 button.disabled = false;
@@ -74,7 +74,7 @@ saveChartBtn.addEventListener("click", function() {
 
 function checkNoData() {
     let allHidden = true;
-    const rows = document.querySelectorAll('.dataRow');
+    const rows = document.querySelectorAll('.data-row');
     rows.forEach(row => {
         if (row.style.display !== 'none') {
             allHidden = false;

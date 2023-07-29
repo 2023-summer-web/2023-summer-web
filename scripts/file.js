@@ -1,6 +1,6 @@
 import { dataInputTable } from './main.js';
 
-export const loadDataFromFileBtn = document.getElementById('loadDataFromFileBtn');
+export const loadDataFromFileBtn = document.getElementById('load-file-button');
 
 loadDataFromFileBtn.addEventListener('change', () => {
     let file = loadDataFromFileBtn.files[0];
@@ -15,7 +15,7 @@ loadDataFromFileBtn.addEventListener('change', () => {
   
 function parseFile(file, fileExtension) {
     // Clear the existing data rows
-    const dataRows = Array.from(dataInputTable.querySelectorAll('.dataRow'));
+    const dataRows = Array.from(dataInputTable.querySelectorAll('.data-row'));
     for (let i = 0; i < dataRows.length; i++) {
         dataRows[i].remove();
     }
@@ -50,11 +50,11 @@ function processData(data) {
             continue;
         } else {
             const newRow = document.createElement('tr');
-            newRow.className = 'dataRow';
+            newRow.className = 'data-row';
             newRow.innerHTML = `
                 <td><input type="number" class="year" value="${year}"></td>
                 <td><input type="number" class="yield" value="${yieldValue}"></td>
-                <td><button class="deleteBtn">×</button></td>
+                <td><button class="delete-button">×</button></td>
             `;
             dataInputTable.appendChild(newRow);
         }

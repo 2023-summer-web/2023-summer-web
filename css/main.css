@@ -42,15 +42,15 @@ body {
     color: #555555;
 }
 
-.main-content table #noDataTip {
+.main-content table #no-data-tip {
     display: none;
 }
 
-.main-content table .dataRow input {
+.main-content table .data-row input {
     border: none !important;
 }
 
-.main-content table .dataRow input::placeholder {
+.main-content table .data-row input::placeholder {
     color: #CCCCCC; 
 }
 
@@ -58,7 +58,7 @@ body {
     border: none;
 }
 
-.main-content button[id=addRowBtn] {
+.main-content button[id=add-row-button] {
     display: flex;
     align-items: center;
     position: relative;
@@ -73,11 +73,11 @@ body {
     border-radius: 50%;
 }
 
-.main-content button[id=addRowBtn]:hover {
+.main-content button[id=add-row-button]:hover {
     background-color: #42e1d7;
 }
 
-.main-content table button[class=deleteBtn] {
+.main-content table button[class=delete-button] {
     display: flex;
     align-items: center;
     position: relative;
@@ -89,11 +89,11 @@ body {
     border-radius: 50%;
 }
 
-.main-content table .dataRow button[class=deleteBtn]:hover {
+.main-content table .data-row button[class=delete-button]:hover {
     background-color: #ff0000;
 }
 
-.main-content table button[class=deleteBtn]:disabled {
+.main-content table button[class=delete-button]:disabled {
     background-color: #cccccc;
     color: #fff;
 }
@@ -120,7 +120,7 @@ body {
     display: none;
 }
 
-#saveChartBtn::before {
+#save-chart-button::before {
     background-image: url("../assets/download.svg");
     background-size: 20px 20px; 
     background-repeat: no-repeat;
@@ -129,9 +129,9 @@ body {
     width: 20px;
     height: 20px;
     content: "";
-  }
+}
 
-.file-upload-btn {
+.file-upload-button {
     padding: 10px;
     border: 2px #ccc;
     border-radius: 5px;
@@ -142,11 +142,11 @@ body {
     font-size: large;
 }
   
-.file-upload-btn:hover {
+.file-upload-button:hover {
     background-color: #ebebeb;
-  }
+}
 
-  .file-upload-btn .icon {
+.file-upload-button .icon {
     background-image: url('../assets/upload.svg');
     background-position: left center;
     background-repeat: no-repeat;

@@ -1,36 +1,36 @@
 export const histogramChoice = document.getElementById('histogram');
 export const curveChoice = document.getElementById('curve');
 
-export const radioInputs = document.querySelectorAll("input[type=radio][name=option]");
-export const subRadioInputs = document.querySelectorAll("input[type=radio][name=gradientOption]");
-export const lineDashInputs = document.querySelectorAll("input[type=radio][name=lineDash]");
-export const lineWidthInputs = document.querySelectorAll("input[type=radio][name=lineWidth]");
-export const pointShapeInputs = document.querySelectorAll("input[type=radio][name=pointShape]");
-export const pointSizeInputs = document.querySelectorAll("input[type=radio][name=pointRadius]");
+export const barFillStyleInputs = document.querySelectorAll("input[type=radio][name=option]");
+export const barGrandientStyleInputs = document.querySelectorAll("input[type=radio][name=gradient-option]");
+export const lineDashInputs = document.querySelectorAll("input[type=radio][name=line-dash]");
+export const lineWidthInputs = document.querySelectorAll("input[type=radio][name=line-width]");
+export const pointShapeInputs = document.querySelectorAll("input[type=radio][name=point-shape]");
+export const pointSizeInputs = document.querySelectorAll("input[type=radio][name=point-radius]");
 
-export const yTickAdapter = document.getElementById('yTickAdapter');
-export const yTickAdapterInner = document.getElementById('yTickAdapterInner');
+export const yTickAdapter = document.getElementById('y-tick-adapter');
+export const yTickAdapterInner = document.getElementById('y-tick-adapter-inner');
 
 let isDraggingProgress = false;
 let progress = 0.25;
 
-export const colorWheels = document.querySelectorAll('.colorWheel');
+export const colorWheels = document.querySelectorAll('.color-wheel');
 
 let isDraggingColorWheels = new Array(colorWheels.length).fill(false);
 
 colorWheels.forEach(colorWheel => {
     colorWheel.style.backgroundColor = '#4693E0';   // default color
-    if (colorWheel.id === 'curveColor' || colorWheel.id === 'pointColor') {
+    if (colorWheel.id === 'line-color' || colorWheel.id === 'point-color') {
         colorWheel.style.backgroundColor = '#39C5BB';   // The representative color of YOU-KNOW-WHO
     }
 });
 
 /// Sidebar functions ///
-radioInputs.forEach(input => {
+barFillStyleInputs.forEach(input => {
     input.addEventListener("change", showDropdownContent.bind(null, input));
 });
 
-subRadioInputs.forEach(input => {
+barGrandientStyleInputs.forEach(input => {
     input.addEventListener("change", showSubDropdownContent.bind(null, input));
 });
 
@@ -43,7 +43,7 @@ function showDropdownContent(selectedOption) {
 
     if (selectedOption.checked) {
         const selectedOptionValue = selectedOption.value;
-        const selectedContent = document.getElementById(`${selectedOptionValue}Choice`);
+        const selectedContent = document.getElementById(`${selectedOptionValue}-option`);
         if (selectedContent) {
             selectedContent.style.display = "block";
         }
@@ -59,7 +59,7 @@ function showSubDropdownContent(selectedOption) {
 
     if (selectedOption.checked) {
         const selectedOptionValue = selectedOption.value;
-        const selectedContent = document.getElementById(`${selectedOptionValue}Choice`);
+        const selectedContent = document.getElementById(`${selectedOptionValue}-option`);
         if (selectedContent) {
             selectedContent.style.display = "block";
         }
@@ -129,6 +129,6 @@ export function shouldBeAdapted(gapValue, maxValue) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    showDropdownContent(radioInputs[0]);
-    showSubDropdownContent(subRadioInputs[0]);
+    showDropdownContent(barFillStyleInputs[0]);
+    showSubDropdownContent(barGrandientStyleInputs[0]);
 });

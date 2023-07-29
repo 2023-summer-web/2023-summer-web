@@ -1,7 +1,7 @@
 import { canvas, ctx, dataInputTable, sidebar } from './main.js';
 import { 
-    histogramChoice, curveChoice, shouldBeAdapted, colorWheels, radioInputs, 
-    subRadioInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
+    histogramChoice, curveChoice, shouldBeAdapted, colorWheels, barFillStyleInputs, 
+    barGrandientStyleInputs, lineDashInputs, lineWidthInputs, pointShapeInputs, pointSizeInputs,
 } from './sidebar.js';
 import { checkNoDataTip } from './table.js'
 
@@ -66,7 +66,7 @@ export function drawChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Get data from table
-    const dataRows = dataInputTable.getElementsByClassName('dataRow');
+    const dataRows = dataInputTable.getElementsByClassName('data-row');
     const data = [];
     const seenYears = {};
 
@@ -155,15 +155,15 @@ export function drawChart() {
     // Draw the histogram
     if (histogramChoice.checked) {
         // Set the bar style
-        if (radioInputs[0].checked) {
+        if (barFillStyleInputs[0].checked) {
             ctx.fillStyle = colorWheels[0].style.backgroundColor;
-        } else if (radioInputs[1].checked) {
-            if (subRadioInputs[0].checked) {
+        } else if (barFillStyleInputs[1].checked) {
+            if (barGrandientStyleInputs[0].checked) {
                 const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
                 gradient.addColorStop(0, colorWheels[1].style.backgroundColor);
                 gradient.addColorStop(1, colorWheels[2].style.backgroundColor);
                 ctx.fillStyle = gradient;
-            } else if (subRadioInputs[1].checked) {
+            } else if (barGrandientStyleInputs[1].checked) {
                 const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
                 gradient.addColorStop(0, colorWheels[3].style.backgroundColor);
                 gradient.addColorStop(1, colorWheels[4].style.backgroundColor);

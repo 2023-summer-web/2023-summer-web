@@ -22,7 +22,7 @@
     margin-bottom: 10px;
 }
 
-.sidebar #chartChoice ul {
+.sidebar #chart-display ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -37,7 +37,7 @@
     zoom: 120%;
 }
 
-.sidebar #fillStyleChoice ul {
+.sidebar #fill-style-options ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -56,7 +56,7 @@
     display: none;
 }
 
-.sidebar .colorWheel {
+.sidebar .color-wheel {
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -66,13 +66,13 @@
     );
 }
 
-.sidebar .gradient .colorWheel {
+.sidebar .gradient .color-wheel {
     width: 90px;
     height: 90px;
     border: 1px solid black;
 }
 
-.sidebar #gradientChoice ul {
+.sidebar #gradient-option ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -80,7 +80,7 @@
     line-height: 1.5;
 }
 
-.sidebar #curveStyleChoice ul {
+.sidebar #curve-style-options ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -88,7 +88,7 @@
     line-height: 1.5;
 }
 
-.sidebar #gradientChoice #verticalChoice ul {
+.sidebar #gradient-option #vertical ul {
     flex-direction: column;
     margin-left: 55px;
 }
